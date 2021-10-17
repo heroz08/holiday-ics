@@ -4,7 +4,7 @@ const fs = require('fs');
 const moment = require('moment');
 const getHolidayInfo = require('./getHolidayInfo');
 
-const currentYear = 2020;
+const currentYear = 2021;
 
 
 function createIcs(events) {
