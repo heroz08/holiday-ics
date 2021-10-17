@@ -4,7 +4,7 @@ const fs = require('fs');
 const moment = require('moment');
 const getHolidayInfo = require('./getHolidayInfo');
 
-const currentYear = 2021;
+const currentYear = 2020;
 
 
 function createIcs(events) {
@@ -13,13 +13,11 @@ function createIcs(events) {
     console.log(errors);
     return;
   }
-  // console.log(value);
-  fs.appendFile('event.ics',  value, (err) => {
-    if (err){
-      console.log(err);
-      return ;
-    }
-  })
+
+  fs.writeFile('event.ics', value, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });
 }
 
 function  createEvents(allHolidayInfo) {
@@ -82,6 +80,7 @@ function exist () {
   })
   return exist
 }
+
 
 
 async function getHoliday (allDaysInYear) {
