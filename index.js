@@ -2,8 +2,6 @@ const ics = require('ics');
 const fs = require('fs');
 
 const moment = require('moment');
-const axios = require('axios');
-const iconv = require('iconv-lite');
 const getHolidayInfo = require('./getHolidayInfo');
 
 const currentYear = 2021;
