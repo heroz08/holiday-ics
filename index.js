@@ -31,10 +31,10 @@ function  createEvents(allHolidayInfo) {
       const event = {
         start: startDate,
         end: endDate,
-        title: obj.name,
+        title: obj.name + '--' + (obj.type === '休' ? '放假' : '补班') ,
         status: 'CONFIRMED',
         productId: 'hzy@hzhyang.com',
-        description: (obj.type ? obj.type : '') + (obj.desc ? ' ' +obj.desc : ''),
+        description: obj.desc || '',
       }
       events.push(event);
     }
@@ -119,7 +119,7 @@ async function getHoliday (allDaysInYear) {
         const index = getIndexInArr(allDaysInYear, `${currentYear}-${workDate}`);
         if (index !== -1) {
           const _item = allDaysInYear[index];
-          _item.name = '上班--' + item.name + '--补班';
+          _item.name = item.name;
           _item.isWork = true;
           _item.type = '班';
           _item.desc = item.desc
