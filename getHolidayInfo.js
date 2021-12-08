@@ -50,7 +50,7 @@ function dealTextInfo(arr) {
     const info = []
     const deReg = /[\u4e00-\u9fa5]{2,3}：/
     const startReg = /(\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}至|\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}放)/
-    const endReg = /至\d{1,2}[\u4e00-\u9fa5]{1}放假/
+    const endReg = /至\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放/
     const monthReg = /^\d{1,2}-/
     // const restReg = /调休/
     const workReg = /\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}（[\u4e00-\u9fa5]{3}）/g
@@ -60,12 +60,20 @@ function dealTextInfo(arr) {
         obj.start = text.match(startReg)?.[0].slice(0, -1).replace(/(日|月)/g, '-').slice(0,-1)
         const month = obj.start.match(monthReg)?.[0]
         const endDate = text.match(endReg)
+    
         if (endDate) {
-            obj.end = (month + endDate[0].slice(1, -2)).replace(/(日|月)/g, '-').slice(0,-1)
+            const temp = endDate[0].replace(/(日|月)/g, '-').slice(1,-2)
+            const tempArr = temp.split('-')
+            if(tempArr.length > 1) { // 带月份的情况 跨月情况
+                obj.end = temp
+            } else { // 同月
+                obj.end = (month + temp)
+            }
         }
         const workDays = text.match(workReg)
         obj.workDays = workDays ? workDays.map(day => (day.slice(0, -5)).replace(/(日|月)/g, '-').slice(0,-1)) : []
         obj.desc = text.replace(/[\u4e00-\u9fa5]{1}、[\u4e00-\u9fa5]{2,3}：/, '')
+        console.log(obj);
         info.push(obj)
     })
     createJson(info)
@@ -82,6 +90,6 @@ function createJson(arr) {
     })
 }
 
-// getHolidayInfo(2021)
+// getHolidayInfo(2022)
 
 module.exports = getHolidayInfo
