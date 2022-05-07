@@ -1,10 +1,12 @@
 const ics = require('ics');
 const fs = require('fs');
+const cover= require('./lunar.js')
 
 const moment = require('moment');
 const getHolidayInfo = require('./getHolidayInfo');
 
 const currentYear = 2022;
+const jiri = '四月十五'
 
 
 function createIcs(events) {
@@ -24,7 +26,6 @@ function  createEvents(allHolidayInfo) {
   const events = [];
   allHolidayInfo.forEach(obj => {
     if (obj.isholiday || obj.isWork) {
-
       const startDate = obj.date.split('-');
       const endDate = moment(obj.date).add(1,  'day').format('YYYY-M-D').split('-');
 
@@ -38,8 +39,21 @@ function  createEvents(allHolidayInfo) {
       }
       events.push(event);
     }
+    if(cover(obj.date) === jiri) {
+      const startDate = obj.date.split('-');
+      const endDate = moment(obj.date).add(1,  'day').format('YYYY-M-D').split('-');
+
+      const event = {
+        start: startDate,
+        end: endDate,
+        title: '忌日' ,
+        status: 'CONFIRMED',
+        productId: 'hzy@hzhyang.com',
+        description: '父亲',
+      }
+      events.push(event);
+    }
   });
-  // console.log(events)
   return events;
 }
 
