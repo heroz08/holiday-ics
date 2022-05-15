@@ -7,7 +7,7 @@ const { currentYear, lunarMapList, lunarDays} = require('./config')
 
 
 function createIcs(name, events) {
-  const path = './ics/'
+  const path = './public/ics/'
   const {errors, value}  = ics.createEvents(events);
   if (errors) {
     console.log(errors);
