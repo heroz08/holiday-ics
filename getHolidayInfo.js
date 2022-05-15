@@ -1,7 +1,7 @@
 const fs = require('fs')
 const cheerio = require('cheerio')
 const axios = require('axios')
-const moment = require('moment');
+const moment = require("moment");
 
 async function getHolidayInfo(year) {
     this.year = year
@@ -60,7 +60,7 @@ function dealTextInfo(arr) {
         obj.start = text.match(startReg)?.[0].slice(0, -1).replace(/(日|月)/g, '-').slice(0,-1)
         const month = obj.start.match(monthReg)?.[0]
         const endDate = text.match(endReg)
-    
+
         if (endDate) {
             const temp = endDate[0].replace(/(日|月)/g, '-').slice(1,-2)
             const tempArr = temp.split('-')
@@ -73,7 +73,8 @@ function dealTextInfo(arr) {
         const workDays = text.match(workReg)
         obj.workDays = workDays ? workDays.map(day => (day.slice(0, -5)).replace(/(日|月)/g, '-').slice(0,-1)) : []
         obj.desc = text.replace(/[\u4e00-\u9fa5]{1}、[\u4e00-\u9fa5]{2,3}：/, '')
-        console.log(obj);
+        obj.start = moment(obj.start, 'M-D').format('MM-DD');
+        obj.end = moment(obj.end, 'M-D').format('MM-DD');
         info.push(obj)
     })
     createJson(info)

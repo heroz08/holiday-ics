@@ -1,29 +1,28 @@
 const ics = require('ics');
 const fs = require('fs');
 const cover= require('./lunar.js')
-
 const moment = require('moment');
 const getHolidayInfo = require('./getHolidayInfo');
-
-const currentYear = 2022;
-const jiri = '四月十五'
+const { currentYear, lunarMapList, lunarDays} = require('./config')
 
 
-function createIcs(events) {
+function createIcs(name, events) {
+  const path = './ics/'
   const {errors, value}  = ics.createEvents(events);
   if (errors) {
     console.log(errors);
     return;
   }
 
-  fs.writeFile('event.ics', value, (err) => {
+  fs.writeFile(path+ name + '.ics', value, (err) => {
     if (err) throw err;
-    console.log('The file has been saved!');
+    console.log(name + '-- file has been saved!');
   });
 }
 
 function  createEvents(allHolidayInfo) {
-  const events = [];
+  const holidayEvents = [];
+  const lunarEvents = [];
   allHolidayInfo.forEach(obj => {
     if (obj.isholiday || obj.isWork) {
       const startDate = obj.date.split('-');
@@ -37,24 +36,26 @@ function  createEvents(allHolidayInfo) {
         productId: 'hzy@hzhyang.com',
         description: obj.desc || '',
       }
-      events.push(event);
+      holidayEvents.push(event);
     }
-    if(cover(obj.date) === jiri) {
+    const lunar = cover(obj.date)
+    if(lunarDays.includes(lunar)) {
+      const currentLunar =lunarMapList[lunar]
       const startDate = obj.date.split('-');
       const endDate = moment(obj.date).add(1,  'day').format('YYYY-M-D').split('-');
 
       const event = {
         start: startDate,
         end: endDate,
-        title: '忌日' ,
+        title: currentLunar.name,
         status: 'CONFIRMED',
         productId: 'hzy@hzhyang.com',
-        description: '父亲',
+        description: currentLunar.description || '',
       }
-      events.push(event);
+      lunarEvents.push(event);
     }
   });
-  return events;
+  return {holidayEvents, lunarEvents};
 }
 
 
@@ -69,7 +70,7 @@ function getAllDayinYear () {
   for (i = 0; i < diffDay; i++) {
     const obj = {};
     const _startDay = moment().year(currentYear).startOf('year');
-    obj.date = _startDay.add(i, 'day').format('YYYY-M-D');
+    obj.date = _startDay.add(i, 'day').format('YYYY-MM-DD');
     allDayInCurrentYearArr.push(obj);
   }
   return allDayInCurrentYearArr;
@@ -146,7 +147,7 @@ async function getHoliday (allDaysInYear) {
 
 function getIndexInArr (arr, item) {
   const len = arr.length;
- for (i = 0; i <  len; i++) {
+ for (let i = 0; i <  len; i++) {
    if (arr[i].date === item) {
      return i;
    }
@@ -159,7 +160,9 @@ async function start() {
   const allDayInCurrentYearArr = getAllDayinYear();
   const allHolidayInfo = await getHoliday(allDayInCurrentYearArr);
   const events = createEvents(allHolidayInfo);
-  createIcs(events);
+  Object.keys(events).forEach(key => {
+    createIcs(key, events[key])
+  })
 }
 
 start();
