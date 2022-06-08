@@ -1,4 +1,4 @@
-const currentYear = 2022;
+const currentYear = new Date().getFullYear();
 const lunarDayList = [
   {
     lunar: '四月十五',
