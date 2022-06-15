@@ -3,7 +3,7 @@ const fs = require('fs');
 const cover= require('./lunar.js')
 const moment = require('moment');
 const getHolidayInfo = require('./getHolidayInfo');
-const { currentYear, lunarMapList, lunarDays} = require('./config')
+const { currentYear, lunarMapList, lunarDays, otherFestival, otherFestivalDays, otherFestivalMapList} = require('./config')
 
 
 function createIcs(name, events) {
@@ -24,6 +24,7 @@ function  createEvents(allHolidayInfo) {
   const holidayEvents = [];
   const lunarEvents = [];
   allHolidayInfo.forEach(obj => {
+    // 放假和补班
     if (obj.isholiday || obj.isWork) {
       const startDate = obj.date.split('-');
       const endDate = moment(obj.date).add(1,  'day').format('YYYY-M-D').split('-');
@@ -38,26 +39,51 @@ function  createEvents(allHolidayInfo) {
       }
       holidayEvents.push(event);
     }
-    const lunar = cover(obj.date)
-    if(lunarDays.includes(lunar)) {
-      const currentLunar =lunarMapList[lunar]
-      const startDate = obj.date.split('-');
-      const endDate = moment(obj.date).add(1,  'day').format('YYYY-M-D').split('-');
-
-      const event = {
-        start: startDate,
-        end: endDate,
-        title: currentLunar.name,
-        status: 'CONFIRMED',
-        productId: 'hzy@hzhyang.com',
-        description: currentLunar.description || '',
-      }
-      lunarEvents.push(event);
-    }
+    // 阴历
+    dealLunarDays(obj.date, lunarEvents)
+    // 阳历其他
+    dealOtherFestival(obj.date, holidayEvents)
   });
   return {holidayEvents, lunarEvents};
 }
 
+function dealOtherFestival(date, holidayEvents) {
+  const _date = date.slice(5)
+  if(otherFestivalDays.includes(_date)) {
+    const current= otherFestivalMapList[_date]
+    const startDate = date.split('-');
+    const endDate = moment(date).add(1,  'day').format('YYYY-M-D').split('-');
+
+    const event = {
+      start: startDate,
+      end: endDate,
+      title: current.name,
+      status: 'CONFIRMED',
+      productId: 'hzy@hzhyang.com',
+      description: current.description || '',
+    }
+    holidayEvents.push(event)
+  }
+}
+
+function dealLunarDays(date, lunarEvents){
+  const lunar = cover(date)
+  if(lunarDays.includes(lunar)) {
+    const currentLunar =lunarMapList[lunar]
+    const startDate = date.split('-');
+    const endDate = moment(date).add(1,  'day').format('YYYY-M-D').split('-');
+
+    const event = {
+      start: startDate,
+      end: endDate,
+      title: currentLunar.name,
+      status: 'CONFIRMED',
+      productId: 'hzy@hzhyang.com',
+      description: currentLunar.description || '',
+    }
+    lunarEvents.push(event);
+  }
+}
 
 
 function getAllDayinYear () {
