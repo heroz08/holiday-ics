@@ -66,8 +66,9 @@ function getAllDayinYear (currentYear) {
 
 function getMonthSunday(month, index){
   const date = moment(currentYear + '-01-01').month(month -1).startOf('month')
-  const firstDay = date.day()
-  date.add(7-firstDay +( 7 * (index-1)), 'day')
+  const firstDay = date.day() || 7
+  const days = 7-firstDay +( 7 * (index-1))
+  date.add(days, 'day')
   return date.format('MM-DD')
 }
 
