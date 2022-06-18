@@ -7,11 +7,19 @@ const currentYear = require("../config");
 function getIndexInArr (arr, item) {
   const len = arr.length;
   for (let i = 0; i <  len; i++) {
-    if (arr[i].date === item) {
+    if (arr[i].date === dateAddZero(item)) {
       return i;
     }
   }
   return -1;
+}
+
+function dateAddZero(date){
+  const arr = date.split('-')
+  return arr.map(a => {
+    return a.length > 1 ? a : '0' + a
+  }).join('-')
+
 }
 
 function read (_path) {
