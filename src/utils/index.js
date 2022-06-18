@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const moment = require('moment');
 const ics = require('ics');
+const currentYear = require("../config");
 
 function getIndexInArr (arr, item) {
   const len = arr.length;
@@ -63,7 +64,24 @@ function getAllDayinYear (currentYear) {
   return allDayInCurrentYearArr;
 }
 
+function getMonthSunday(month, index){
+  const date = moment(currentYear + '-01-01').month(month -1).startOf('month')
+  const firstDay = date.day()
+  date.add(7-firstDay +( 7 * (index-1)), 'day')
+  return date.format('MM-DD')
+}
+
+
+
+function listCreateMap(list, key){
+  const keys = list.map(item => item[key])
+  const map = list.reduce((pre, next) => {
+    pre[next[key]] = next
+    return pre
+  }, {})
+  return [keys, map]
+}
 
 module.exports = {
-  getIndexInArr, read, exist, createIcs,getAllDayinYear
+  getIndexInArr, read, exist, createIcs, getAllDayinYear, getMonthSunday, listCreateMap
 }

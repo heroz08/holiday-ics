@@ -1,3 +1,20 @@
+const { getMonthSunday, listCreateMap } = require('../utils/index')
+const { getJieQi } = require('../utils/lunar')
+const other = [
+  {
+    name: '父亲节',
+    date: getMonthSunday(6,3),
+    description: '6月的第3个星期日'
+  },
+  {
+    name: '母亲节',
+    date: getMonthSunday(5,2),
+    description: '5月的第2个星期日'
+  }
+]
+
+const jieqi = getJieQi()
+
 const festival = [
   {
     date: '03-08',
@@ -19,6 +36,12 @@ const festival = [
     date: '08-01',
     name: '建军节'
   },
+  ...other,
+  ...jieqi
 ]
+const [otherFestivalDays, otherFestivalMapList] = listCreateMap(festival, 'date')
 
-module.exports = festival
+
+module.exports = {
+  otherFestivalDays, otherFestivalMapList
+}

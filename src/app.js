@@ -1,10 +1,11 @@
-const fs = require('fs');
 const path = require('path')
-const cover= require('./utils/lunar.js')
-const {  getIndexInArr, read, exist, createIcs,getAllDayinYear } = require('./utils/index')
 const moment = require('moment');
+const currentYear = require('./config')
+const { lunarMapList, lunarDays } = require('./static/lunarFestival')
+const { otherFestivalDays, otherFestivalMapList } = require('./static/otherFestival')
+const { toCoverLunar }= require('./utils/lunar.js')
+const {  getIndexInArr, read, exist, createIcs, getAllDayinYear } = require('./utils/index')
 const getHolidayInfo = require('./utils/getHolidayInfo');
-const { currentYear, lunarMapList, lunarDays, otherFestival, otherFestivalDays, otherFestivalMapList} = require('./config')
 
 
 function  createEvents(allHolidayInfo) {
@@ -54,7 +55,7 @@ function dealOtherFestival(date, holidayEvents) {
 }
 
 function dealLunarDays(date, lunarEvents){
-  const lunar = cover(date)
+  const lunar = toCoverLunar(date)
   if(lunarDays.includes(lunar)) {
     const currentLunar =lunarMapList[lunar]
     const startDate = date.split('-');
