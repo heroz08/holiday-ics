@@ -47,6 +47,5 @@ jobs:
         # File to upload to the release
         file: ./public/ics/*
         # Path to changelog file
-        changelog: # optional
   
 
