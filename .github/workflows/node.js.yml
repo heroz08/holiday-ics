@@ -45,7 +45,7 @@ jobs:
       uses: johnwbyrd/update-release@v1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        files: ./public/ics/*.ics
+        files: ${{ github.workspace }}/public/ics/*.ics
         
 #     - name: Release
 #       uses: fnkr/github-action-ghr@v1
