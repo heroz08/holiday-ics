@@ -26,41 +26,16 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run start
-#     - run: ls ./public/ics
-    
-#     - name: nodejs project information
-#       id: projectinfo
-#       uses: gregoranders/nodejs-project-info@v0.0.18
-#     - name: create release
-#       id: createrelease
-#       uses: gregoranders/nodejs-create-release@v0.0.18
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         tag: v${{ steps.projectinfo.outputs.version }}
-#         name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
-#         target: ${{ github.ref }}
-        
-#     - name: Update release
-#       uses: johnwbyrd/update-release@v1.0.0
-#       with:
-#         token: ${{ secrets.GITHUB_TOKEN }}
-#         files: ./public/ics/holidayEvents.ics ./public/ics/lunarEvents.ics
-        
-#     - name: Release
-#       uses: fnkr/github-action-ghr@v1
-#       if: startsWith(github.ref, 'refs/tags/')
-#       env:
-#         #GHR_COMPRESS: xz
-#         GHR_PATH: public/ics/*.ics
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - uses: "marvinpinto/action-automatic-releases@latest"
+    - name: nodejs project information
+      id: projectinfo
+      uses: gregoranders/nodejs-project-info@v0.0.18
+    - name: upload files
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
+        automatic_release_tag: v${{ steps.projectinfo.outputs.version }}
+        prerelease: false
+        title: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
         files: |
           ./public/ics/*.ics
   
