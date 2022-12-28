@@ -26,6 +26,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run start
+    - run: pwd
     
     - name: nodejs project information
       id: projectinfo
@@ -39,5 +40,13 @@ jobs:
         tag: v${{ steps.projectinfo.outputs.version }}
         name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
         target: ${{ github.ref }}
+        
+    - name: Action Release
+      uses: yakuhzi/release-asset@v1.2.3
+      with:
+        # File to upload to the release
+        file: 
+        # Path to changelog file
+        changelog: # optional
   
 
