@@ -26,14 +26,18 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run start
-  
-    - uses: CupOfTea696/gh-action-auto-release@v1.0.0
-      with:
-        title: "Release: $version"
-        tag: "v$semver"
-        draft: false
-        regex: "/^Release: #{semver}$/i"
+    
+    - name: nodejs project information
+      id: projectinfo
+      uses: gregoranders/nodejs-project-info@v0.0.18
+    - name: create release
+      id: createrelease
+      uses: gregoranders/nodejs-create-release@v0.0.18
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag: v${{ steps.projectinfo.outputs.version }}
+        name: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
+        target: ${{ github.ref }}
   
 
