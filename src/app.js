@@ -3,24 +3,24 @@ const moment = require('moment');
 const currentYear = require('./config')
 const { lunarMapList, lunarDays } = require('./static/lunarFestival')
 const { otherFestivalDays, otherFestivalMapList } = require('./static/otherFestival')
-const { toCoverLunar }= require('./utils/lunar.js')
-const {  getIndexInArr, read, exist, createIcs, getAllDayinYear } = require('./utils/index')
+const { toCoverLunar } = require('./utils/lunar.js')
+const { getIndexInArr, read, exist, createIcs, getAllDayinYear } = require('./utils/index')
 const getHolidayInfo = require('./utils/getHolidayInfo');
 
 
-function  createEvents(allHolidayInfo) {
+function createEvents(allHolidayInfo) {
   const holidayEvents = [];
   const lunarEvents = [];
   allHolidayInfo.forEach(obj => {
     // 放假和补班
     if (obj.isholiday || obj.isWork) {
       const startDate = obj.date.split('-');
-      const endDate = moment(obj.date).add(1,  'day').format('YYYY-M-D').split('-');
+      const endDate = moment(obj.date).add(1, 'day').format('YYYY-M-D').split('-');
 
       const event = {
         start: startDate,
         end: endDate,
-        title: obj.name + '--' + (obj.type === '休' ? '放假' : '补班') ,
+        title: obj.name + '--' + (obj.type === '休' ? '放假' : '补班'),
         status: 'CONFIRMED',
         productId: 'hzy@hzhyang.com',
         description: obj.desc || '',
@@ -32,15 +32,15 @@ function  createEvents(allHolidayInfo) {
     // 阳历其他
     dealOtherFestival(obj.date, holidayEvents)
   });
-  return {holidayEvents, lunarEvents};
+  return { holidayEvents, lunarEvents };
 }
 
 function dealOtherFestival(date, holidayEvents) {
   const _date = date.slice(5)
-  if(otherFestivalDays.includes(_date)) {
-    const current= otherFestivalMapList[_date]
+  if (otherFestivalDays.includes(_date)) {
+    const current = otherFestivalMapList[_date]
     const startDate = date.split('-');
-    const endDate = moment(date).add(1,  'day').format('YYYY-M-D').split('-');
+    const endDate = moment(date).add(1, 'day').format('YYYY-M-D').split('-');
 
     const event = {
       start: startDate,
@@ -54,12 +54,12 @@ function dealOtherFestival(date, holidayEvents) {
   }
 }
 
-function dealLunarDays(date, lunarEvents){
+function dealLunarDays(date, lunarEvents) {
   const lunar = toCoverLunar(date)
-  if(lunarDays.includes(lunar)) {
-    const currentLunar =lunarMapList[lunar]
+  if (lunarDays.includes(lunar)) {
+    const currentLunar = lunarMapList[lunar]
     const startDate = date.split('-');
-    const endDate = moment(date).add(1,  'day').format('YYYY-M-D').split('-');
+    const endDate = moment(date).add(1, 'day').format('YYYY-M-D').split('-');
 
     const event = {
       start: startDate,
@@ -73,21 +73,21 @@ function dealLunarDays(date, lunarEvents){
   }
 }
 
-async function getHoliday (allDaysInYear) {
+async function getHoliday(allDaysInYear) {
   const tempPath = path.resolve(__dirname, `../json/${currentYear}.json`)
   let holiday = []
   const stats = await exist(tempPath)
-  if(!stats) {
+  if (!stats) {
     holiday = await getHolidayInfo(currentYear)
   } else {
     holiday = await read(tempPath)
   }
   holiday.forEach(item => {
-    const start = moment(`${currentYear}-${item.start}`)
-    if(item.end) {
-      const end = moment(`${currentYear}-${item.end}`)
+    const start = moment(`${item.startYear || currentYear}-${item.start}`)
+    if (item.end) {
+      const end = moment(`${item.endYear || currentYear}-${item.end}`)
       allDaysInYear.forEach(_item => { // 放假日子
-        if(moment(_item.date).isBetween(start, end, 'day', [])) {
+        if (moment(_item.date).isBetween(start, end, 'day', [])) {
           _item.isholiday = true;
           _item.name = item.name;
           _item.type = '休';
@@ -96,7 +96,7 @@ async function getHoliday (allDaysInYear) {
       })
     } else {
       allDaysInYear.forEach(_item => { // 放假日子
-        if(_item.date === start) {
+        if (_item.date === start) {
           _item.isholiday = true;
           _item.name = item.name;
           _item.type = '休';
@@ -105,7 +105,7 @@ async function getHoliday (allDaysInYear) {
       })
     }
     // work
-    if(item.workDays.length) {
+    if (item.workDays.length) {
       item.workDays.forEach(workDate => {
         const index = getIndexInArr(allDaysInYear, `${currentYear}-${workDate}`);
         if (index !== -1) {
@@ -121,13 +121,23 @@ async function getHoliday (allDaysInYear) {
   return allDaysInYear;
 }
 
-async function start() {
+async function createEventsInfo(currentYear) {
   const allDayInCurrentYearArr = getAllDayinYear(currentYear);
   const allHolidayInfo = await getHoliday(allDayInCurrentYearArr);
-  const events = createEvents(allHolidayInfo);
+  return createEvents(allHolidayInfo);
+}
+
+async function start() {
+  const yearList = [currentYear - 1, currentYear]
+  const events = []
+  for (let year of yearList) {
+    const result = await createEventsInfo(year);
+    events.push(result)
+  }
+  const [preEvents, currentEvents] = events;
   const tempPath = path.resolve(__dirname, '../public/ics')
-  Object.keys(events).forEach(key => {
-    createIcs(tempPath, key, events[key])
+  Object.keys(currentEvents).forEach(key => {
+    createIcs(tempPath, key, [...preEvents[key], ...currentEvents[key]])
   })
 }
 
