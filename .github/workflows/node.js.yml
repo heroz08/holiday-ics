@@ -26,7 +26,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run start
-    - run: pwd
+    - run: ls ./public/ics
     
     - name: nodejs project information
       id: projectinfo
@@ -45,7 +45,7 @@ jobs:
       uses: yakuhzi/release-asset@v1.2.3
       with:
         # File to upload to the release
-        file: 
+        file: ./public/ics/*
         # Path to changelog file
         changelog: # optional
   
