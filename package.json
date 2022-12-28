@@ -1,5 +1,5 @@
 {
-  "name": "ics",
+  "name": "holiday-ics",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
+  "author": "hzhyang",
   "license": "ISC",
-  "description": ""
+  "description": "抓去国务院放假安排"
 }
