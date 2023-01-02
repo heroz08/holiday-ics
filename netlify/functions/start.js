@@ -1,7 +1,6 @@
 const start = require('../../src/app');``
 
 exports.handler = async function (event, context) {
-// async function test (event, context) {
   // your server-side functionality
   // console.log(event, context, 233);
   const {status, error } = await start();
