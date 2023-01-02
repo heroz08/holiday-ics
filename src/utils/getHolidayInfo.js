@@ -94,7 +94,7 @@ function dealTextInfo(arr) {
 
 function createJson(arr) {
     const tagPath = path.resolve(__dirname, `../../json/${this.year}.json`)
-    console.log(tagPath);
+    console.log(tagPath,900000);
     fs.appendFile(tagPath, JSON.stringify(arr), (err) => {
         if (err) {
             console.log(err);
