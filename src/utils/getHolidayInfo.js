@@ -98,6 +98,7 @@ function createJson(arr) {
         if (err) {
             console.log(__dirname,'dirname');
             console.log(err);
+            throw err;
             return;
         }
     })
