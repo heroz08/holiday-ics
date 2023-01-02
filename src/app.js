@@ -144,7 +144,6 @@ async function start() {
       status: true
     }
   }catch (e) {
-    console.log(e, 233);
     return {
       status: false,
       error: e
