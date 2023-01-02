@@ -2,6 +2,7 @@ const fs = require('fs')
 const cheerio = require('cheerio')
 const axios = require('axios')
 const moment = require("moment");
+const path = require('path');
 
 async function getHolidayInfo(year) {
     this.year = year
@@ -92,7 +93,8 @@ function dealTextInfo(arr) {
 
 
 function createJson(arr) {
-    fs.appendFile(`./json/${this.year}.json`, JSON.stringify(arr), (err) => {
+    const tagPath = path.resolve(__dirname, `../../json/${this.year}.json`)
+    fs.appendFile(tagPath, JSON.stringify(arr), (err) => {
         if (err) {
             console.log(err);
             return;
