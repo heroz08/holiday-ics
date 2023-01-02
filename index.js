@@ -1,2 +1,9 @@
 const start = require('./src/app');
-start();
+async function main (){
+  const {status, error } = await start();
+  if(!status) {
+    console.log(error);
+  }
+}
+
+main()

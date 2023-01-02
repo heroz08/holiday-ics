@@ -130,15 +130,26 @@ async function createEventsInfo(currentYear) {
 async function start() {
   const yearList = [currentYear - 1, currentYear]
   const events = []
-  for (let year of yearList) {
-    const result = await createEventsInfo(year);
-    events.push(result)
+  try{
+    for (let year of yearList) {
+      const result = await createEventsInfo(year);
+      events.push(result)
+    }
+    const [preEvents, currentEvents] = events;
+    const tempPath = path.resolve(__dirname, '../public/ics')
+    Object.keys(currentEvents).forEach(key => {
+      createIcs(tempPath, key, [...preEvents[key], ...currentEvents[key]])
+    })
+    return {
+      status: true
+    }
+  }catch (e) {
+    return {
+      status: false,
+      error: e
+    }
   }
-  const [preEvents, currentEvents] = events;
-  const tempPath = path.resolve(__dirname, '../public/ics')
-  Object.keys(currentEvents).forEach(key => {
-    createIcs(tempPath, key, [...preEvents[key], ...currentEvents[key]])
-  })
+
 }
 
 module.exports = start
