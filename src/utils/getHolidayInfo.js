@@ -95,7 +95,7 @@ function dealTextInfo(arr) {
 function createJson(arr) {
     const tagPath = path.resolve(__dirname, `../../json/${this.year}.json`)
     console.log(tagPath,'path', path.join(__dirname,`../../json/${this.year}.json`));
-    fs.appendFile(tagPath, JSON.stringify(arr), (err) => {
+    fs.appendFile(`../../json/${this.year}.json`, JSON.stringify(arr), (err) => {
         if (err) {
             console.log(__dirname,'dirname');
             console.log(err);
