@@ -1,3 +1,0 @@
-[functions]
-  # Includes all Markdown files inside the "files/" directory.
-  included_files = ["json/*.json","public/ics/*.ics"]
