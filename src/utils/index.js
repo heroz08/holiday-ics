@@ -51,7 +51,10 @@ function createIcs(_path, name, events) {
     return;
   }
   fs.writeFile(tempPath, value, (err) => {
-    if (err) throw err;
+    if (err) {
+      console.log(234, err);
+      throw err;
+    }
     console.log(name + '-- file has been saved!');
   });
 }
