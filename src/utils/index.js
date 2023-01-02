@@ -47,6 +47,7 @@ function createIcs(_path, name, events) {
   const {errors, value}  = ics.createEvents(events);
   if (errors) {
     console.log(errors);
+    throw errors;
     return;
   }
   fs.writeFile(tempPath, value, (err) => {

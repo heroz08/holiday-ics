@@ -75,14 +75,11 @@ function dealLunarDays(date, lunarEvents) {
 
 async function getHoliday(allDaysInYear) {
   const tempPath = path.resolve(__dirname, `../json/${currentYear}.json`)
-  console.log(tempPath, '233333');
   let holiday = []
   const stats = await exist(tempPath)
   if (!stats) {
-    console.log(2333333);
     holiday = await getHolidayInfo(currentYear)
   } else {
-    console.log(123123);
     holiday = await read(tempPath)
   }
   holiday.forEach(item => {

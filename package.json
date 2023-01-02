@@ -1,6 +1,6 @@
 {
   "name": "holiday-ics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.19.2",
@@ -16,5 +16,5 @@
   },
   "author": "hzhyang",
   "license": "ISC",
-  "description": "抓去国务院放假安排"
+  "description": "抓取国务院放假安排"
 }
