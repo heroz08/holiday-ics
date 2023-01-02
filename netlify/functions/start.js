@@ -5,7 +5,7 @@ exports.handler = async function (event, context) {
   console.log(event, context, 233);
   const {status, error } = await start();
   console.log('\n---------------------------------------------------\n');
-  console.log(status, error, 899);
+  console.log(status, error, 899, __dirname);
   if(status) {
     return {
       statusCode: 200,
