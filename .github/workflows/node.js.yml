@@ -37,6 +37,6 @@ jobs:
         prerelease: false
         title: ${{ steps.projectinfo.outputs.name }} - ${{ steps.projectinfo.outputs.version }} Release
         files: |
-          ./public/ics/*.ics
+          ./build/public/ics/*.ics
   
 

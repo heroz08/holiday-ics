@@ -1,6 +1,6 @@
 {
   "name": "holiday-ics",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.19.2",
@@ -18,7 +18,8 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "deploys": "npm run clean && npm run compile && cp -r json build/json && cp -r public build/public && npm run main",
+    "cpdir": "cp -r json build/json && cp -r public build/public",
+    "deploys": "npm run clean && npm run compile && npm run cpdir && npm run main",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run lint"
