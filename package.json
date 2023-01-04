@@ -12,12 +12,13 @@
     "request": "^2.88.2"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run deploys",
+    "main": "node index.js",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "deploys": "npm run clean && npm run compile && cp -r json build/json && cp -r public build/public && npm run start",
+    "deploys": "npm run clean && npm run compile && cp -r json build/json && cp -r public build/public && npm run main",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run lint"
