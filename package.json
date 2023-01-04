@@ -12,7 +12,7 @@
     "request": "^2.88.2"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run compile && node index.js",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",

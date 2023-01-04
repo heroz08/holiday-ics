@@ -4,6 +4,7 @@ import {
   EventArray,
   InfoArray,
   Result,
+  StatusProps,
 } from './utils/interface';
 import {Moment} from 'moment';
 
@@ -155,7 +156,7 @@ async function createEventsInfo(currentYear: number): Promise<Result> {
   return createEvents(allHolidayInfo);
 }
 
-async function start(): Promise<void> {
+async function start(): Promise<StatusProps> {
   const yearList = [currentYear - 1, currentYear];
   const events: Result[] = [];
   try {
@@ -173,8 +174,15 @@ async function start(): Promise<void> {
         ...currentEvents[key as keyof typeof preEvents],
       ]);
     });
-  } catch (e) {
+    return {
+      status: true,
+    };
+  } catch (e: any) {
     console.log(e);
+    return {
+      status: false,
+      error: e,
+    };
   }
 }
 

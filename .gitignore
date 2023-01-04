@@ -1,3 +1,4 @@
 public/ics/*.ics
 node_modules/
 .idea
+build

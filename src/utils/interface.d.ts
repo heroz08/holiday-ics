@@ -54,3 +54,8 @@ export interface DayConfig {
 export interface Temp {
   [key: string]: DayConfig;
 }
+
+export interface StatusProps {
+  status: boolean;
+  error?: NodeJS.ErrnoException | undefined | null;
+}
