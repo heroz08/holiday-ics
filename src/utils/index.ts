@@ -28,7 +28,7 @@ function dateAddZero(date: string): string {
     .join('-');
 }
 
-function read(_path: string): Promise<any> {
+function read(_path: string): Promise<unknown> {
   const read = new Promise((resolve, reject) => {
     fs.readFile(_path, 'utf8', (err: NodeJS.ErrnoException | null, data: string) => {
       if (err) reject(err);
@@ -39,7 +39,7 @@ function read(_path: string): Promise<any> {
 }
 
 function exist(_path: string) {
-  const exist = new Promise((resolve, reject) => {
+  const exist = new Promise(resolve => {
     fs.stat(_path, (err: NodeJS.ErrnoException | null, stats: Stats) => {
       resolve(stats);
     });

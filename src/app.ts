@@ -144,10 +144,7 @@ async function start(): Promise<StatusProps> {
     Object.keys(currentEvents).forEach((key: string) => {
       // typeof ts 可以获取声明的类型
       // keyof 该操作符可以用于获取某种类型的所有键
-      createIcs(tempPath, key, [
-        ...preEvents[key as keyof typeof preEvents],
-        ...currentEvents[key as keyof typeof preEvents],
-      ]);
+      createIcs(tempPath, key, [...preEvents[key as keyof typeof preEvents], ...currentEvents[key as keyof typeof preEvents]]);
     });
     return {
       status: true,

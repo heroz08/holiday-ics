@@ -53,8 +53,7 @@ function dealTextInfo(arr: HolidayInfo) {
   const deReg = /[\u4e00-\u9fa5]{2,3}：/;
   const startReg =
     /(\d{4}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}至|\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}至|\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}放)/;
-  const endReg =
-    /(至\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放|至\d{4}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放)/;
+  const endReg = /(至\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放|至\d{4}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放)/;
   const monthReg = /^\d{1,2}-/;
   const workReg = /\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}（[\u4e00-\u9fa5]{3}）/g;
   arr.forEach(text => {
