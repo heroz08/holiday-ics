@@ -1,13 +1,7 @@
 import {Stats} from 'fs';
 import {EventAttributes} from 'ics';
 import {Moment} from 'moment';
-import {
-  AllDayInCurrentYearArr,
-  ArrayT,
-  DayConfig,
-  DayInfo,
-  Temp,
-} from './interface';
+import {AllDayInCurrentYearArr, ArrayT, DayConfig, DayInfo, Temp} from './interface';
 
 const fs = require('fs');
 const path = require('path');
@@ -36,14 +30,10 @@ function dateAddZero(date: string): string {
 
 function read(_path: string): Promise<any> {
   const read = new Promise((resolve, reject) => {
-    fs.readFile(
-      _path,
-      'utf8',
-      (err: NodeJS.ErrnoException | null, data: string) => {
-        if (err) reject(err);
-        resolve(JSON.parse(data));
-      }
-    );
+    fs.readFile(_path, 'utf8', (err: NodeJS.ErrnoException | null, data: string) => {
+      if (err) reject(err);
+      resolve(JSON.parse(data));
+    });
   });
   return read;
 }

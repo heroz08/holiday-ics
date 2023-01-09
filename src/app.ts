@@ -1,29 +1,13 @@
-import {
-  AllDayInCurrentYearArr,
-  Event,
-  EventArray,
-  InfoArray,
-  Result,
-  StatusProps,
-} from './utils/interface';
+import {AllDayInCurrentYearArr, Event, EventArray, InfoArray, Result, StatusProps} from './utils/interface';
 import {Moment} from 'moment';
 
 const path = require('path');
 const moment = require('moment');
 const currentYear = require('./config');
 const {lunarMapList, lunarDays} = require('./static/lunarFestival');
-const {
-  otherFestivalDays,
-  otherFestivalMapList,
-} = require('./static/otherFestival');
+const {otherFestivalDays, otherFestivalMapList} = require('./static/otherFestival');
 const {toCoverLunar} = require('./utils/lunar.js');
-const {
-  getIndexInArr,
-  read,
-  exist,
-  createIcs,
-  getAllDayinYear,
-} = require('./utils/index');
+const {getIndexInArr, read, exist, createIcs, getAllDayinYear} = require('./utils/index');
 const getHolidayInfo = require('./utils/getHolidayInfo');
 
 function createEvents(allHolidayInfo: AllDayInCurrentYearArr): Result {
@@ -33,10 +17,7 @@ function createEvents(allHolidayInfo: AllDayInCurrentYearArr): Result {
     // 放假和补班
     if (obj.isholiday || obj.isWork) {
       const startDate = obj.date?.split('-');
-      const endDate = moment(obj.date)
-        .add(1, 'day')
-        .format('YYYY-M-D')
-        .split('-');
+      const endDate = moment(obj.date).add(1, 'day').format('YYYY-M-D').split('-');
 
       const event: Event = {
         start: startDate,
@@ -104,9 +85,7 @@ async function getHoliday(allDaysInYear: AllDayInCurrentYearArr) {
     holiday = await read(tempPath);
   }
   holiday.forEach(item => {
-    const start: Moment = moment(
-      `${item.startYear || currentYear}-${item.start}`
-    );
+    const start: Moment = moment(`${item.startYear || currentYear}-${item.start}`);
     if (item.end) {
       const end: Moment = moment(`${item.endYear || currentYear}-${item.end}`);
       allDaysInYear.forEach(_item => {
@@ -132,10 +111,7 @@ async function getHoliday(allDaysInYear: AllDayInCurrentYearArr) {
     // work
     if (item.workDays?.length) {
       item.workDays.forEach(workDate => {
-        const index = getIndexInArr(
-          allDaysInYear,
-          `${currentYear}-${workDate}`
-        );
+        const index = getIndexInArr(allDaysInYear, `${currentYear}-${workDate}`);
         if (index !== -1) {
           const _item = allDaysInYear[index];
           _item.name = item.name;
@@ -150,8 +126,7 @@ async function getHoliday(allDaysInYear: AllDayInCurrentYearArr) {
 }
 
 async function createEventsInfo(currentYear: number): Promise<Result> {
-  const allDayInCurrentYearArr: AllDayInCurrentYearArr =
-    getAllDayinYear(currentYear);
+  const allDayInCurrentYearArr: AllDayInCurrentYearArr = getAllDayinYear(currentYear);
   const allHolidayInfo = await getHoliday(allDayInCurrentYearArr);
   return createEvents(allHolidayInfo);
 }

@@ -56,8 +56,7 @@ function dealTextInfo(arr: HolidayInfo) {
   const endReg =
     /(至\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放|至\d{4}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}(\d{1,2}[\u4e00-\u9fa5]{1}|)放)/;
   const monthReg = /^\d{1,2}-/;
-  const workReg =
-    /\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}（[\u4e00-\u9fa5]{3}）/g;
+  const workReg = /\d{1,2}[\u4e00-\u9fa5]{1}\d{1,2}[\u4e00-\u9fa5]{1}（[\u4e00-\u9fa5]{3}）/g;
   arr.forEach(text => {
     const obj: Info = {};
     obj.name = text.match(deReg)?.[0].slice(0, -1);
@@ -109,23 +108,16 @@ function dealTextInfo(arr: HolidayInfo) {
   return info;
 }
 
-function createJson(
-  year: number,
-  arr: InfoArray
-): Promise<null | NodeJS.ErrnoException> {
+function createJson(year: number, arr: InfoArray): Promise<null | NodeJS.ErrnoException> {
   const tagPath = path.resolve(__dirname, `../../json/${year}.json`);
   return new Promise((resolve, reject) => {
-    fs.appendFile(
-      tagPath,
-      JSON.stringify(arr),
-      (err: NodeJS.ErrnoException | null) => {
-        if (err) {
-          console.log(err);
-          reject(err);
-        }
-        resolve(null);
+    fs.appendFile(tagPath, JSON.stringify(arr), (err: NodeJS.ErrnoException | null) => {
+      if (err) {
+        console.log(err);
+        reject(err);
       }
-    );
+      resolve(null);
+    });
   });
 }
 
