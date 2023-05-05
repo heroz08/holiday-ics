@@ -108,7 +108,7 @@ function dealTextInfo(arr: HolidayInfo) {
 }
 
 function createJson(year: number, arr: InfoArray): Promise<null | NodeJS.ErrnoException> {
-  const tagPath = path.resolve(__dirname, `../../json/${year}.json`);
+  const tagPath = path.resolve(__dirname, `../../public/json/${year}.json`);
   return new Promise((resolve, reject) => {
     fs.appendFile(tagPath, JSON.stringify(arr), (err: NodeJS.ErrnoException | null) => {
       if (err) {
