@@ -5,7 +5,7 @@ const moment = require('moment');
 
 export default function holiday(request, response) {
   try {
-    console.log(request.query, request.body);
+    // console.log(request.query, request.body);
     response.status(201).json({
       res: request.query,
     })
