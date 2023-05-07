@@ -6,9 +6,8 @@ const moment = require('moment');
 export default function holiday(request, response) {
   try {
     console.log(request.query, request.body);
-    response.json({
-      res: request,
-      resp: response
+    response.status(201).json({
+      res: request.query,
     })
     // const { day } = request.body;
     // const [y] = day.split('-');
