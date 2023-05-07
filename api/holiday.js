@@ -7,8 +7,6 @@ export default function holiday(request, response) {
   try {
     console.log(request.query, request.body, request);
     response.json({
-      query: request.query,
-      body: request.body,
       res: request,
       resp: response
     })
