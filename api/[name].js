@@ -1,4 +1,4 @@
 export default function handle(req,res){
-  console.log(req.name);
-  res.send('hello' +  req.name)
+  console.log(req.query.name);
+  res.send('hello' +  req.query.name)
 }
