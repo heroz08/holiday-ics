@@ -4,6 +4,12 @@ const path = require('path');
 const moment = require('moment');
 
 export default async function holiday(request, response) {
+  response.json({
+    query: request.query,
+    body: request.body,
+    res: request,
+    resp: response
+  })
   try {
     console.log(request.query, request.body, request);
     const { day } = request.body;
