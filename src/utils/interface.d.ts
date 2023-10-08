@@ -29,7 +29,7 @@ export interface Event {
   start: string[];
   end: string[];
   title: string;
-  status: string;
+  // status: string;
   productId: string;
   description: string;
 }
