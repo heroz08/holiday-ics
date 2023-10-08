@@ -23,7 +23,7 @@ function createEvents(allHolidayInfo: AllDayInCurrentYearArr): Result {
         start: startDate,
         end: endDate,
         title: obj.name + '--' + (obj.type === '休' ? '放假' : '补班'),
-        status: 'CONFIRMED',
+        // status: 'CONFIRMED',
         productId: 'hzy@hzhyang.com',
         description: obj.desc || '',
       };
@@ -48,7 +48,7 @@ function dealOtherFestival(date: string, holidayEvents: EventArray) {
       start: startDate,
       end: endDate,
       title: current.name,
-      status: 'CONFIRMED',
+      // status: 'CONFIRMED',
       productId: 'hzy@hzhyang.com',
       description: current.description || '',
     };
@@ -67,7 +67,7 @@ function dealLunarDays(date: string, lunarEvents: EventArray) {
       start: startDate,
       end: endDate,
       title: currentLunar.name,
-      status: 'CONFIRMED',
+      // status: 'CONFIRMED',
       productId: 'hzy@hzhyang.com',
       description: currentLunar.description || '',
     };
