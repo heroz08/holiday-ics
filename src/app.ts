@@ -15,20 +15,20 @@ function createEvents(allHolidayInfo: AllDayInCurrentYearArr): Result {
   const lunarEvents: EventArray = [];
   allHolidayInfo.forEach(obj => {
     // 放假和补班
-    if (obj.isholiday || obj.isWork) {
-      const startDate = obj.date?.split('-');
-      const endDate = moment(obj.date).add(1, 'day').format('YYYY-M-D').split('-');
-
-      const event: Event = {
-        start: startDate,
-        end: endDate,
-        title: obj.name + '--' + (obj.type === '休' ? '放假' : '补班'),
-        status: 'CONFIRMED',
-        productId: 'hzy@hzhyang.com',
-        description: obj.desc || '',
-      };
-      holidayEvents.push(event);
-    }
+    // if (obj.isholiday || obj.isWork) {
+    //   const startDate = obj.date?.split('-');
+    //   const endDate = moment(obj.date).add(1, 'day').format('YYYY-M-D').split('-');
+    //
+    //   const event: Event = {
+    //     start: startDate,
+    //     end: endDate,
+    //     title: obj.name + '--' + (obj.type === '休' ? '放假' : '补班'),
+    //     status: 'CONFIRMED',
+    //     productId: 'hzy@hzhyang.com',
+    //     description: obj.desc || '',
+    //   };
+    //   holidayEvents.push(event);
+    // }
     // 阴历
     dealLunarDays(obj.date, lunarEvents);
     // 阳历其他
