@@ -80,7 +80,7 @@ async function getHoliday(allDaysInYear: AllDayInCurrentYearArr) {
   let holiday: InfoArray = [];
   const stats = await exist(tempPath);
   if (!stats) {
-    holiday = await getHolidayInfo(currentYear);
+    // holiday = await getHolidayInfo(currentYear); // 不需要自己去爬了 苹果日历的中国大陆节假日已经包含 放假信息了
   } else {
     holiday = await read(tempPath);
   }
