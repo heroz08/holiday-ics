@@ -14,7 +14,7 @@ function createEvents(allHolidayInfo: AllDayInCurrentYearArr): Result {
   const holidayEvents: EventArray = [];
   const lunarEvents: EventArray = [];
   allHolidayInfo.forEach(obj => {
-    // 放假和补班
+    // 放假和补班(苹果已经有了不需要了)
     // if (obj.isholiday || obj.isWork) {
     //   const startDate = obj.date?.split('-');
     //   const endDate = moment(obj.date).add(1, 'day').format('YYYY-M-D').split('-');
